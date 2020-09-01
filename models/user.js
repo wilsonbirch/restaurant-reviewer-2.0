@@ -33,7 +33,5 @@ module.exports = function(sequelize, DataTypes) {
     );
   });
 
-    User.hasMany(Restaurant, { as: "favourites", foreignKey: 'id', onDelete: "cascade"});
-
   return User;
 };

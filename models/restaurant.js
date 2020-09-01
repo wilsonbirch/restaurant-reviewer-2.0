@@ -4,6 +4,10 @@ let User = require("./user");
 module.exports = function(sequelize, DataTypes) {
   const Restaurant = sequelize.define("Restaurant", {
     // The name of the restaurant will be a string and must be unique and not empty
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false
