@@ -25,13 +25,22 @@ module.exports = function(app) {
   // If a user who is not logged in tries to access this route they will be redirected to the signup page
   app.get("/restaurants", isAuthenticated, (req, res) => {
     res.render("index");
+    // $("#searchNavLi").attr("class", "nav-item active");
+    // $("#favoritesNavLi").attr("class", "nav-item");
+    // $("#reviewedNavLi").attr("class", "nav-item");
   });
 
   app.get("/favorites", isAuthenticated, (req, res) => {
     res.render("favorites");
+    // $("#favoritesNavLi").attr("class", "nav-item active");
+    // $("#searchNavLi").attr("class", "nav-item");
+    // $("#reviewedNavLi").attr("class", "nav-item");
   });
 
   app.get("/reviewed", isAuthenticated, (req, res) => {
     res.render("reviewed");
+    // $("#reviewedNavLi").attr("class", "nav-item active");
+    // $("#favoritesNavLi").attr("class", "nav-item");
+    // $("#searchNavLi").attr("class", "nav-item");
   });
 };

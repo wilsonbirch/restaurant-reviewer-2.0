@@ -1,5 +1,3 @@
-let User = require("./user");
-
 // Creating our Store model
 module.exports = function(sequelize, DataTypes) {
   const Restaurant = sequelize.define("Restaurant", {
@@ -25,6 +23,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING
     }
   });
-  
+
   return Restaurant;
 };
