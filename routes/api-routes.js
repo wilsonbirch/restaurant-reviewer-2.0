@@ -30,6 +30,22 @@ module.exports = function(app) {
       });
   });
 
+  app.post("/api/searchedRestaurants", (req, res) => {
+    db.searchedRestaurants
+      .create({
+        name: req.body.name,
+        city: req.body.city,
+        cuisine: req.body.cuisine,
+        photo: req.body.photo
+      })
+      .then(() => {
+        //res.redirect(307, "/restaurantsearch");
+      })
+      .catch(err => {
+        res.status(401).json(err);
+      });
+  });
+
   // Route for logging user out
   app.get("/logout", (req, res) => {
     req.logout();

@@ -30,6 +30,12 @@ module.exports = function(app) {
     // $("#reviewedNavLi").attr("class", "nav-item");
   });
 
+  app.get("/restaurantsearch", isAuthenticated, (req, res) => {
+    res.render("restaurantsearch", {
+      restaurants: restaurantArray
+    });
+  });
+
   app.get("/favorites", isAuthenticated, (req, res) => {
     res.render("favorites");
     // $("#favoritesNavLi").attr("class", "nav-item active");

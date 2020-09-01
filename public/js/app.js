@@ -1,5 +1,5 @@
 // eslint-disable-next-line prefer-const
-let restaurantArray = [];
+//let restaurantArray = [];
 
 $(document).ready(() => {
   // This file just does a GET request to figure out which user is logged in
@@ -71,16 +71,13 @@ $("#searchCityBtn").on("click", e => {
         let i;
         //console.log(response);
         for (i = 0; i <= 9; i++) {
-          const restObject = {
-            name: response.data[i].name,
-            id: response.data[i].id,
-            cuisine: response.data[i].servesCuisine,
-            photo: response.data[i].mainPhoto[0]
-          };
-
-          restaurantArray[i] = restObject;
+          const name = response.data[i].name;
+          const city = response.data[i].address.locality;
+          const restId = response.data[i].id;
+          const cuisine = response.data[i].servesCuisine;
+          const photo = response.data[i].mainPhoto.source;
+          postSearchedRestaurant(name, city, cuisine, photo, restId);
         }
-        console.log(restaurantArray);
       });
     });
   });
@@ -130,3 +127,13 @@ $("#searchCityBtn").on("click", e => {
     });
   });
 });
+
+function postSearchedRestaurant(name, city, cuisine, photo, restId) {
+  $.post("/api/searchedRestaurants", {
+    name: name,
+    city: city,
+    cuisine: cuisine,
+    photo: photo,
+    restId: restId
+  });
+}
