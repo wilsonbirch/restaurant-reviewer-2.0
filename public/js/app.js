@@ -1,10 +1,12 @@
-/* eslint-disable camelcase */
+//let searchedRestaurantArray = [];
+
 $(document).ready(() => {
   // This file just does a GET request to figure out which user is logged in
   // and updates the HTML on the page
   $.get("/api/user_data").then(data => {
     $(".member-name").text(data.email);
   });
+  getSearchedRestaurants();
 });
 
 // Search restaurants by city
@@ -25,15 +27,15 @@ $("#searchCityBtn").on("click", e => {
     method: "GET",
     headers: {
       "x-rapidapi-host": "thefork.p.rapidapi.com",
-      "x-rapidapi-key": "e915407c69msh9ee027f59377df5p171a0bjsncb60597ede45"
+      "x-rapidapi-key": "b388625a40mshaedce519e1c44cbp1d3075jsn5e9957639235"
     }
   };
   $.ajax(locationSearch).done(response => {
-    const google_place_Id = response.data.geolocation[0].id.id;
+    const googlePlaceId = response.data.geolocation[0].id.id;
 
     queryURL =
       "https://thefork.p.rapidapi.com/locations/list?google_place_id=" +
-      google_place_Id;
+      googlePlaceId;
 
     const cityIdSearch = {
       async: true,
@@ -42,7 +44,7 @@ $("#searchCityBtn").on("click", e => {
       method: "GET",
       headers: {
         "x-rapidapi-host": "thefork.p.rapidapi.com",
-        "x-rapidapi-key": "e915407c69msh9ee027f59377df5p171a0bjsncb60597ede45"
+        "x-rapidapi-key": "b388625a40mshaedce519e1c44cbp1d3075jsn5e9957639235"
       }
     };
 
@@ -62,11 +64,22 @@ $("#searchCityBtn").on("click", e => {
         method: "GET",
         headers: {
           "x-rapidapi-host": "thefork.p.rapidapi.com",
-          "x-rapidapi-key": "e915407c69msh9ee027f59377df5p171a0bjsncb60597ede45"
+          "x-rapidapi-key": "b388625a40mshaedce519e1c44cbp1d3075jsn5e9957639235"
         }
       };
       $.ajax(finalRestSearch).done(response => {
-        console.log(response);
+        let i;
+        //console.log(response);
+        for (i = 0; i <= 3; i++) {
+          postSearchedRestaurant(
+            response.data[i].name,
+            response.data[i].address.locality,
+            response.data[i].servesCuisine,
+            response.data[i].mainPhoto.source,
+            response.data[i].id
+          );
+        }
+        window.location.reload();
       });
     });
   });
@@ -91,7 +104,7 @@ $("#searchNameBtn").on("click", e => {
     method: "GET",
     headers: {
       "x-rapidapi-host": "thefork.p.rapidapi.com",
-      "x-rapidapi-key": "e915407c69msh9ee027f59377df5p171a0bjsncb60597ede45"
+      "x-rapidapi-key": "b388625a40mshaedce519e1c44cbp1d3075jsn5e9957639235"
     }
   };
 
@@ -107,7 +120,7 @@ $("#searchNameBtn").on("click", e => {
       method: "GET",
       headers: {
         "x-rapidapi-host": "thefork.p.rapidapi.com",
-        "x-rapidapi-key": "e915407c69msh9ee027f59377df5p171a0bjsncb60597ede45"
+        "x-rapidapi-key": "b388625a40mshaedce519e1c44cbp1d3075jsn5e9957639235"
       }
     };
 
@@ -116,3 +129,28 @@ $("#searchNameBtn").on("click", e => {
     });
   });
 });
+
+function postSearchedRestaurant(name, city, cuisine, photo, restId) {
+  $.post("/api/searchedRestaurants", {
+    name: name,
+    city: city,
+    cuisine: cuisine,
+    photo: photo,
+    restId: restId
+  });
+}
+
+function getSearchedRestaurants() {
+  $.get("/api/allsearchedRestaurants", data => {
+    // for (i = 0; i < data.length; i++) {
+    //   searchedRestaurantArray[i] = {
+    //     name: data[i].name,
+    //     city: data[i].city,
+    //     restId: data[i].restId,
+    //     cuisine: data[i].cuisine,
+    //     photo: data[i].photo
+    //   };
+    // }
+    console.log(data);
+  });
+}

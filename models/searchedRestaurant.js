@@ -1,6 +1,6 @@
 // Creating our Restaurant model
 module.exports = function(sequelize, DataTypes) {
-  const Restaurant = sequelize.define("Restaurant", {
+  const searchedRestaurants = sequelize.define("searchedRestaurants", {
     // The name of the restaurant will be a string and must be unique and not empty
     name: {
       type: DataTypes.STRING,
@@ -12,17 +12,15 @@ module.exports = function(sequelize, DataTypes) {
     },
     // The restaurant description will be able to be read and updated
     cuisine: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.STRING
     },
-    favorite: {
-      type: DataTypes.BOOLEAN,
-      default: 0
+    photo: {
+      type: DataTypes.STRING
     },
-    review: {
+    restId: {
       type: DataTypes.STRING
     }
   });
 
-  return Restaurant;
+  return searchedRestaurants;
 };
