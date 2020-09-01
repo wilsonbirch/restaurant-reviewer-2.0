@@ -31,15 +31,17 @@ module.exports = function(app) {
   });
 
   app.post("/api/searchedRestaurants", (req, res) => {
+    res.redirect("/restaurantSearch");
     db.searchedRestaurants
       .create({
         name: req.body.name,
         city: req.body.city,
         cuisine: req.body.cuisine,
-        photo: req.body.photo
+        photo: req.body.photo,
+        restId: req.body.restId
       })
       .then(() => {
-        //res.redirect(307, "/restaurantsearch");
+        console.log("sent!");
       })
       .catch(err => {
         res.status(401).json(err);
@@ -65,5 +67,11 @@ module.exports = function(app) {
         id: req.user.id
       });
     }
+  });
+
+  app.get("/api/allsearchedRestaurants", (req, res) => {
+    db.searchedRestaurants.findAll().then(searched => {
+      res.json(searched);
+    });
   });
 };

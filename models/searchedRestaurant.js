@@ -12,8 +12,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     // The restaurant description will be able to be read and updated
     cuisine: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.STRING
     },
     photo: {
       type: DataTypes.STRING
