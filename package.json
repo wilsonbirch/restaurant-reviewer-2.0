@@ -1,6 +1,6 @@
 {
-  "name": "rest-review",
-  "version": "1.0.0",
+  "name": "restaurant-reviewer",
+  "version": "2.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {

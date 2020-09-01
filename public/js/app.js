@@ -7,7 +7,8 @@ $(document).ready(() => {
   });
 });
 
-$("#searchBtn").on("click", e => {
+// Search restaurants by city
+$("#searchCityBtn").on("click", e => {
   e.preventDefault();
 
   const searchCity = $("#restaurantSearchCityInput")
@@ -67,6 +68,51 @@ $("#searchBtn").on("click", e => {
       $.ajax(finalRestSearch).done(response => {
         console.log(response);
       });
+    });
+  });
+});
+
+//Search any restaurant by name (EU)
+$("#searchNameBtn").on("click", e => {
+  e.preventDefault();
+
+  const searchName = $("#restaurantSearchNameInput")
+    .val()
+    .trim();
+
+  const queryURL =
+    "https://thefork.p.rapidapi.com/restaurants/auto-complete?text=" +
+    searchName;
+
+  const restNameSearch = {
+    async: true,
+    crossDomain: true,
+    url: queryURL,
+    method: "GET",
+    headers: {
+      "x-rapidapi-host": "thefork.p.rapidapi.com",
+      "x-rapidapi-key": "e915407c69msh9ee027f59377df5p171a0bjsncb60597ede45"
+    }
+  };
+
+  $.ajax(restNameSearch).done(response => {
+    const searchRestId = response.data.autocomplete[0].id;
+
+    const searchRestIdInfo = {
+      async: true,
+      crossDomain: true,
+      url:
+        "https://thefork.p.rapidapi.com/restaurants/get-info?locale=en_US&id_restaurant=" +
+        searchRestId,
+      method: "GET",
+      headers: {
+        "x-rapidapi-host": "thefork.p.rapidapi.com",
+        "x-rapidapi-key": "e915407c69msh9ee027f59377df5p171a0bjsncb60597ede45"
+      }
+    };
+
+    $.ajax(searchRestIdInfo).done(response => {
+      console.log(response.data);
     });
   });
 });

@@ -9,4 +9,4 @@ cache:
 services:
   - mysql
 before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS rest-reviewer;'
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS rest_reviewer_db;'

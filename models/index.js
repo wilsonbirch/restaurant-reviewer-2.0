@@ -3,6 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
+const { brotliDecompress } = require("zlib");
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
 const config = require(__dirname + "/../config/config.json")[env];
@@ -42,5 +43,13 @@ Object.keys(db).forEach((modelName) => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+
+//Models/tables
+db.users = require("../models/user")(sequelize, Sequelize);
+db.restaurant = require("../models/restaurant")(sequelize, Sequelize);
+
+//Relations
+db.restaurant.belongsTo(db.users);
+db.users.hasMany(db.restaurant);
 
 module.exports = db;
