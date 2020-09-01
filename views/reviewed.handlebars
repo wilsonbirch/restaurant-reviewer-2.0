@@ -1,0 +1,27 @@
+<div class="container p-0 mt-5 shadow">
+    <table class="table table-hover" style="text-align: center;">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">City</th>
+                <th scope="col">Cusine</th>
+                <th scope="col">Review</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each data}}
+            <tr>
+                <td>{{this.dataValues.name}}</td>
+                <td>{{this.dataValues.city}}</td>
+                <td>{{this.dataValues.cuisine}}</td>
+                <td class="text-truncate review-page-table-text" style="max-width: 10px;">
+                    {{this.dataValues.review}}
+                </td>
+            </tr>
+            <tr class="d-none">
+                <td colspan="4">{{this.dataValues.review}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
