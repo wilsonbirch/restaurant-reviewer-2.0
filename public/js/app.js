@@ -1,4 +1,6 @@
-/* eslint-disable camelcase */
+// eslint-disable-next-line prefer-const
+let restaurantArray = [];
+
 $(document).ready(() => {
   // This file just does a GET request to figure out which user is logged in
   // and updates the HTML on the page
@@ -29,11 +31,11 @@ $("#searchCityBtn").on("click", e => {
     }
   };
   $.ajax(locationSearch).done(response => {
-    const google_place_Id = response.data.geolocation[0].id.id;
+    const googlePlaceId = response.data.geolocation[0].id.id;
 
     queryURL =
       "https://thefork.p.rapidapi.com/locations/list?google_place_id=" +
-      google_place_Id;
+      googlePlaceId;
 
     const cityIdSearch = {
       async: true,
@@ -66,44 +68,39 @@ $("#searchCityBtn").on("click", e => {
         }
       };
       $.ajax(finalRestSearch).done(response => {
-        console.log(response);
+        let i;
+        //console.log(response);
+        for (i = 0; i <= 9; i++) {
+          const restObject = {
+            name: response.data[i].name,
+            id: response.data[i].id,
+            cuisine: response.data[i].servesCuisine,
+            photo: response.data[i].mainPhoto[0]
+          };
+
+          restaurantArray[i] = restObject;
+        }
+        console.log(restaurantArray);
       });
     });
   });
-});
 
-//Search any restaurant by name (EU)
-$("#searchNameBtn").on("click", e => {
-  e.preventDefault();
+  //Search any restaurant by name (EU)
+  $("#searchNameBtn").on("click", e => {
+    e.preventDefault();
 
-  const searchName = $("#restaurantSearchNameInput")
-    .val()
-    .trim();
+    const searchName = $("#restaurantSearchNameInput")
+      .val()
+      .trim();
 
-  const queryURL =
-    "https://thefork.p.rapidapi.com/restaurants/auto-complete?text=" +
-    searchName;
+    const queryURL =
+      "https://thefork.p.rapidapi.com/restaurants/auto-complete?text=" +
+      searchName;
 
-  const restNameSearch = {
-    async: true,
-    crossDomain: true,
-    url: queryURL,
-    method: "GET",
-    headers: {
-      "x-rapidapi-host": "thefork.p.rapidapi.com",
-      "x-rapidapi-key": "e915407c69msh9ee027f59377df5p171a0bjsncb60597ede45"
-    }
-  };
-
-  $.ajax(restNameSearch).done(response => {
-    const searchRestId = response.data.autocomplete[0].id;
-
-    const searchRestIdInfo = {
+    const restNameSearch = {
       async: true,
       crossDomain: true,
-      url:
-        "https://thefork.p.rapidapi.com/restaurants/get-info?locale=en_US&id_restaurant=" +
-        searchRestId,
+      url: queryURL,
       method: "GET",
       headers: {
         "x-rapidapi-host": "thefork.p.rapidapi.com",
@@ -111,8 +108,25 @@ $("#searchNameBtn").on("click", e => {
       }
     };
 
-    $.ajax(searchRestIdInfo).done(response => {
-      console.log(response.data);
+    $.ajax(restNameSearch).done(response => {
+      const searchRestId = response.data.autocomplete[0].id;
+
+      const searchRestIdInfo = {
+        async: true,
+        crossDomain: true,
+        url:
+          "https://thefork.p.rapidapi.com/restaurants/get-info?locale=en_US&id_restaurant=" +
+          searchRestId,
+        method: "GET",
+        headers: {
+          "x-rapidapi-host": "thefork.p.rapidapi.com",
+          "x-rapidapi-key": "e915407c69msh9ee027f59377df5p171a0bjsncb60597ede45"
+        }
+      };
+
+      $.ajax(searchRestIdInfo).done(response => {
+        console.log(response.data);
+      });
     });
   });
 });
