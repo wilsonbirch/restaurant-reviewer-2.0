@@ -286,5 +286,3 @@ function favoritesRemove(tag, favoritePage) {
     }
   });
 }
-
-
