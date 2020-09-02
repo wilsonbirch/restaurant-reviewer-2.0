@@ -1,27 +1,27 @@
 // Requiring path to so we can use relative routes to our HTML files
 const path = require("path");
 
+// Requiring Model so we can get the favorites, reviewed data etc
+const db = require("../models");
+
 // Requiring our custom middleware for checking if a user is logged in
 const isAuthenticated = require("../config/middleware/isAuthenticated");
-const db = require("../models");
 
 module.exports = function(app) {
   app.get("/", (req, res) => {
     // If the user already has an account send them to the members page
     if (req.user) {
       res.redirect("/restaurants");
-    } else {
-      res.sendFile(path.join(__dirname, "../public/signup.html"));
     }
+    res.sendFile(path.join(__dirname, "../public/signup.html"));
   });
 
   app.get("/login", (req, res) => {
     // If the user already has an account send them to the members page
     if (req.user) {
       res.redirect("/restaurants");
-    } else {
-      res.sendFile(path.join(__dirname, "../public/login.html"));
     }
+    res.sendFile(path.join(__dirname, "../public/login.html"));
   });
 
   // Here we've add our isAuthenticated middleware to this route.
@@ -33,23 +33,35 @@ module.exports = function(app) {
     // $("#reviewedNavLi").attr("class", "nav-item");
   });
 
-  app.get("/restaurantSearch", isAuthenticated, (req, res) => {
-    db.searchedRestaurant.findAll().then(results => {
-      console.log(results);
-      console.log("hello");
-      res.render("restaurantsearch", { restaurant: results });
-    });
-  });
-
   app.get("/favorites", isAuthenticated, (req, res) => {
-    res.render("favorites");
-    // $("#favoritesNavLi").attr("class", "nav-item active");
-    // $("#searchNavLi").attr("class", "nav-item");
-    // $("#reviewedNavLi").attr("class", "nav-item");
+      db.restaurant.findAll({
+        where: {
+          Userid: req.user.id,
+          favorite: 1
+        }
+      }).then(data => {
+        res.render("favorites", {data});
+      }).catch(err => {
+        // res.render("favorites");
+      });
+      // $("#favoritesNavLi").attr("class", "nav-item active");
+      // $("#searchNavLi").attr("class", "nav-item");
+      // $("#reviewedNavLi").attr("class", "nav-item");
   });
 
   app.get("/reviewed", isAuthenticated, (req, res) => {
-    res.render("reviewed");
+    db.restaurant.findAll({
+      where: {
+        Userid: req.user.id,
+        review: {
+          [db.Sequelize.Op.ne]: null
+        } 
+      }
+    }).then(data => {
+      res.render("reviewed", {data});
+    }).catch(err => {
+      res.render("favorites", {data: ['error Occured']});
+    });
     // $("#reviewedNavLi").attr("class", "nav-item active");
     // $("#favoritesNavLi").attr("class", "nav-item");
     // $("#searchNavLi").attr("class", "nav-item");
