@@ -113,7 +113,7 @@ $("#searchCityBtn").on("click", e => {
     method: "GET",
     headers: {
       "x-rapidapi-host": "thefork.p.rapidapi.com",
-      "x-rapidapi-key": "e915407c69msh9ee027f59377df5p171a0bjsncb60597ede45"
+      "x-rapidapi-key": "b388625a40mshaedce519e1c44cbp1d3075jsn5e9957639235"
     }
   };
   $.ajax(locationSearch).done(response => {
@@ -130,7 +130,7 @@ $("#searchCityBtn").on("click", e => {
       method: "GET",
       headers: {
         "x-rapidapi-host": "thefork.p.rapidapi.com",
-        "x-rapidapi-key": "e915407c69msh9ee027f59377df5p171a0bjsncb60597ede45"
+        "x-rapidapi-key": "b388625a40mshaedce519e1c44cbp1d3075jsn5e9957639235"
       }
     };
 
@@ -150,7 +150,7 @@ $("#searchCityBtn").on("click", e => {
         method: "GET",
         headers: {
           "x-rapidapi-host": "thefork.p.rapidapi.com",
-          "x-rapidapi-key": "e915407c69msh9ee027f59377df5p171a0bjsncb60597ede45"
+          "x-rapidapi-key": "b388625a40mshaedce519e1c44cbp1d3075jsn5e9957639235"
         }
       };
       $.ajax(finalRestSearch).done(response => {
@@ -181,7 +181,7 @@ $("#searchNameBtn").on("click", e => {
     method: "GET",
     headers: {
       "x-rapidapi-host": "thefork.p.rapidapi.com",
-      "x-rapidapi-key": "e915407c69msh9ee027f59377df5p171a0bjsncb60597ede45"
+      "x-rapidapi-key": "b388625a40mshaedce519e1c44cbp1d3075jsn5e9957639235"
     }
   };
 
@@ -197,7 +197,7 @@ $("#searchNameBtn").on("click", e => {
       method: "GET",
       headers: {
         "x-rapidapi-host": "thefork.p.rapidapi.com",
-        "x-rapidapi-key": "e915407c69msh9ee027f59377df5p171a0bjsncb60597ede45"
+        "x-rapidapi-key": "b388625a40mshaedce519e1c44cbp1d3075jsn5e9957639235"
       }
     };
 
