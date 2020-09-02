@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "Malinda16*",
-    "database": "res_reviewer_db",
+    "password": "3Strong13!",
+    "database": "rest_reviewer_db",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
