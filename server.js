@@ -21,9 +21,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Static directory
-app.use(express.static("app/public"));
-
 // Set Handlebars as the default templating engine.
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
