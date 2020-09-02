@@ -286,3 +286,5 @@ function favoritesRemove(tag, favoritePage) {
     }
   });
 }
+
+

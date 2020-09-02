@@ -33,6 +33,10 @@ module.exports = function(app) {
     // $("#reviewedNavLi").attr("class", "nav-item");
   });
 
+  app.get("/logout", (req, res) => {
+    res.render("/logout");
+  });
+
   app.get("/favorites", isAuthenticated, (req, res) => {
     db.restaurant
       .findAll({
