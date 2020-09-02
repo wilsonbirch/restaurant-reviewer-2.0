@@ -202,7 +202,8 @@ $("#searchNameBtn").on("click", e => {
     };
 
     $.ajax(searchRestIdInfo).done(response => {
-      displayInformation(response.data);
+      //console.log(response.data);
+      displaySingleInformation(response.data);
     });
   });
 });
@@ -232,6 +233,35 @@ function displayInformation(data) {
     </tr>
     `;
   });
+  const tbody = $("#search-page-table tbody");
+  tbody.empty();
+  tbody.append(tag);
+  stopSpinning();
+}
+
+function displaySingleInformation(data) {
+  let tag = "";
+  tag += `
+    <tr>
+      <td class="tableRestaurantName">${data.name}</td>
+      <td class="tableRestaurantCity">${data.address.locality}</td>
+      <td class="tableRestaurantCuisine">${data.servesCuisine}</td>
+      <td>
+        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-heart-fill search-page-heart-icon-add heart-icon-hover-red" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+        </svg>&nbsp;&nbsp;&nbsp;
+        <button type="button" class="search-page-table-review-btn btn btn btn-info">Review It</button>
+      </td>
+    </tr>
+    <tr class="d-none search-page-review-form">
+        <td colspan="3">
+          <textarea rows="5" class="form-control" placeholder="Write A Review" maxlength="256"></textarea>
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary pl-5 pr-5 mt-3">Post</button>
+        </td>
+    </tr>
+    `;
   const tbody = $("#search-page-table tbody");
   tbody.empty();
   tbody.append(tag);
