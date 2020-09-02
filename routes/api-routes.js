@@ -30,24 +30,6 @@ module.exports = function(app) {
       });
   });
 
-  app.post("/api/searchedRestaurants", (req, res) => {
-    res.redirect("/restaurantSearch");
-    db.searchedRestaurants
-      .create({
-        name: req.body.name,
-        city: req.body.city,
-        cuisine: req.body.cuisine,
-        photo: req.body.photo,
-        restId: req.body.restId
-      })
-      .then(() => {
-        console.log("sent!");
-      })
-      .catch(err => {
-        res.status(401).json(err);
-      });
-  });
-
   // Route for logging user out
   app.get("/logout", (req, res) => {
     req.logout();
@@ -69,9 +51,145 @@ module.exports = function(app) {
     }
   });
 
-  app.get("/api/allsearchedRestaurants", (req, res) => {
-    db.searchedRestaurants.findAll().then(searched => {
-      res.json(searched);
-    });
+  // Handles the PUT (update) request to reomve the item from favorite
+  // list by converting it into 0
+  app.put("/api/removeFromFavorites", (req, res) => {
+    db.restaurant
+      .update(
+        { favorite: 0 },
+        {
+          where: {
+            UserId: req.user.id,
+            id: req.body.id
+          }
+        }
+      )
+      .then(() => {
+        res.send(JSON.stringify({ removed: true }));
+      })
+      .catch(() => {
+        res.send(JSON.stringify({ removed: false }));
+      });
+  });
+
+  // Add to favorites
+  app.post("/api/addToFavorites", (req, res) => {
+    db.restaurant
+      .findOne({
+        where: {
+          name: req.body.tableRestaurantName,
+          city: req.body.tableRestaurantCity,
+          cuisine: req.body.tableRestaurantCuisine,
+          UserId: req.user.id
+        }
+      })
+      .then(data => {
+        if (data) {
+          if (!data.dataValues.favorite) {
+            db.restaurant
+              .update(
+                { favorite: 1, updatedAt: new Date() },
+                {
+                  where: {
+                    name: req.body.tableRestaurantName,
+                    city: req.body.tableRestaurantCity,
+                    cuisine: req.body.tableRestaurantCuisine,
+                    UserId: req.user.id
+                  }
+                }
+              )
+              .then(() => {
+                res.send(
+                  JSON.stringify({ added: true, id: data.dataValues.id })
+                );
+              })
+              .catch(() => {
+                res.send(JSON.stringify({ added: false }));
+              });
+          } else {
+            res.send(JSON.stringify({ added: false }));
+          }
+        } else {
+          db.restaurant
+            .create({
+              name: req.body.tableRestaurantName,
+              city: req.body.tableRestaurantCity,
+              cuisine: req.body.tableRestaurantCuisine,
+              favorite: 1,
+              review: null,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              UserId: req.user.id
+            })
+            .then(msg => {
+              res.send(JSON.stringify({ added: true, id: msg.dataValues.id }));
+            })
+            .catch(() => {
+              res.send(JSON.stringify({ added: false }));
+            });
+        }
+      })
+      .catch(() => {
+        res.send(JSON.stringify({ added: false }));
+      });
+  });
+
+  // Add Reviews
+  app.post("/api/addReview", (req, res) => {
+    db.restaurant
+      .findOne({
+        where: {
+          name: req.body.tableRestaurantName,
+          city: req.body.tableRestaurantCity,
+          cuisine: req.body.tableRestaurantCuisine,
+          UserId: req.user.id
+        }
+      })
+      .then(data => {
+        if (data) {
+          if (!data.dataValues.review) {
+            db.restaurant
+              .update(
+                { review: req.body.review, updatedAt: new Date() },
+                {
+                  where: {
+                    name: req.body.tableRestaurantName,
+                    city: req.body.tableRestaurantCity,
+                    cuisine: req.body.tableRestaurantCuisine,
+                    UserId: req.user.id
+                  }
+                }
+              )
+              .then(() => {
+                res.send(JSON.stringify({ added: true }));
+              })
+              .catch(() => {
+                res.send(JSON.stringify({ added: false }));
+              });
+          } else {
+            res.send(JSON.stringify({ added: false }));
+          }
+        } else {
+          db.restaurant
+            .create({
+              name: req.body.tableRestaurantName,
+              city: req.body.tableRestaurantCity,
+              cuisine: req.body.tableRestaurantCuisine,
+              review: req.body.review,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              UserId: req.user.id
+            })
+            .then(() => {
+              res.send(JSON.stringify({ added: true }));
+            })
+            .catch(() => {
+              res.send(JSON.stringify({ added: false }));
+            });
+        }
+      })
+      .catch(() => {
+        res.send(JSON.stringify({ added: false }));
+      });
   });
 };

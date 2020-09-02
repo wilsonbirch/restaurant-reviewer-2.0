@@ -1,4 +1,4 @@
-// Creating our Restaurant model
+// Creating our Store model
 module.exports = function(sequelize, DataTypes) {
   const Restaurant = sequelize.define("Restaurant", {
     // The name of the restaurant will be a string and must be unique and not empty

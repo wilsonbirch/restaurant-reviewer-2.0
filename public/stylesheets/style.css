@@ -12,4 +12,17 @@ form.login {
   margin-top: 30px;
 }
 
+.heart-icon-hover-black:hover {
+  color: #343a40;
+  cursor: pointer;
+}
+
+.heart-icon-hover-red:hover {
+  color: #dc3545;
+  cursor: pointer;
+}
+
+.review-page-table-text {
+  cursor: pointer;
+}
 
