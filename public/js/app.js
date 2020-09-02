@@ -208,6 +208,12 @@ $("#searchNameBtn").on("click", e => {
   });
 });
 
+$(".reviewDeleteButton").on("click", e => {
+  e.preventDefault();
+  const id = $(".reviewDeleteButton").attr("id");
+  deleteReview(id);
+});
+
 function displayInformation(data) {
   let tag = "";
   data.forEach(element => {
@@ -240,12 +246,13 @@ function displayInformation(data) {
 }
 
 function displaySingleInformation(data) {
+  console.log(data);
   let tag = "";
   tag += `
     <tr>
       <td class="tableRestaurantName">${data.name}</td>
-      <td class="tableRestaurantCity">${data.address.locality}</td>
-      <td class="tableRestaurantCuisine">${data.servesCuisine}</td>
+      <td class="tableRestaurantCity">${data.city}</td>
+      <td class="tableRestaurantCuisine">${data.speciality}</td>
       <td>
         <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-heart-fill search-page-heart-icon-add heart-icon-hover-red" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
@@ -314,5 +321,26 @@ function favoritesRemove(tag, favoritePage) {
         tag.addClass("search-page-heart-icon-add");
       }
     }
+  });
+}
+
+function deleteReview(data) {
+  console.log(data);
+  $.ajax({
+    url: "/api/deleteReview",
+    type: "PUT",
+    //dataType: "string",
+    //contentType: "application/json",
+    data: data,
+    success: function() {
+      console.log("deleted!");
+    }
+    // $.ajax({
+    //   url: "api/deleteReview",
+    //   type: "DELETE",
+    //   dataType: "json",
+    //   contentType: "application/json",
+    //   data: JSON.stringify(data)
+    // });
   });
 }
