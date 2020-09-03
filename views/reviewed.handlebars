@@ -6,6 +6,7 @@
                 <th scope="col">City</th>
                 <th scope="col">Cusine</th>
                 <th scope="col">Review</th>
+                <th scope="col">Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -17,6 +18,7 @@
                 <td class="text-truncate review-page-table-text" style="max-width: 10px;">
                     {{this.dataValues.review}}
                 </td>
+                <td class = "reviewDeleteButton" id="{{this.dataValues.name}}"> <i class="fa fa-trash"></i> </td>
             </tr>
             <tr class="d-none"><td colspan="4">{{this.dataValues.review}}</td></tr>
             {{/each}}

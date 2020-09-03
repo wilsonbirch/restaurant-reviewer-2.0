@@ -192,4 +192,19 @@ module.exports = function(app) {
         res.send(JSON.stringify({ added: false }));
       });
   });
+
+  app.put("/api/deleteReview", (req, res) => {
+    db.restaurant
+      .destroy({
+        where: {
+          name: req.body.name
+        }
+      })
+      .then(() => {
+        res.send(JSON.stringify({ removed: true }));
+      })
+      .catch(() => {
+        res.send(JSON.stringify({ removed: false }));
+      });
+  });
 };
