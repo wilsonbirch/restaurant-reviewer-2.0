@@ -12,7 +12,7 @@ An application that allows for the user to search by city or name for any restau
 
 ## Website
 
-Hosted app on heroku can be found here: https://secure-mesa-11479.herokuapp.com/
+Hosted ....
 
 ## Getting Started
 
@@ -66,4 +66,4 @@ Wilson Birch (wilsonbirch)
 
 ## Acknowlegments
 
-TheFork API: https://www.programmableweb.com/api/unofficial-fork
+TheFork API: https://www.programmableweb.com/api/unofficial-fork (DEPRECATED)
